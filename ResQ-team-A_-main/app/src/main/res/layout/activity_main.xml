@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="11">
+
+        <!-- Row 1: Top Controls -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/tv_status_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:gravity="center_vertical|start"
+                android:padding="8dp"
+                android:text="System: OK"
+                android:layout_margin="2dp"
+                android:elevation="2dp"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textStyle="bold"
+                android:background="@drawable/grid_cell_border" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:layout_margin="2dp"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:background="@drawable/grid_cell_border"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FIRE 🔥"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switch_fire_flood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌊 FLOOD"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/theme_button_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:layout_margin="2dp"
+                android:elevation="2dp"
+                android:text="🌙"
+                android:textSize="24sp"
+                android:background="@drawable/grid_cell_border" />
+        </LinearLayout>
+
+        <!-- Row 2: Connectivity -->
+        <LinearLayout
+            android:id="@+id/row_connectivity"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <Button
+                android:id="@+id/bluetooth_button_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:layout_margin="2dp"
+                android:elevation="4dp"
+                android:backgroundTint="@color/resq_connectivity_black"
+                android:text="BLUETOOTH"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/grid_cell_border" />
+
+            <Button
+                android:id="@+id/wifi_direct_button_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:layout_margin="2dp"
+                android:elevation="4dp"
+                android:backgroundTint="@color/resq_connectivity_black"
+                android:text="WIFI P2P"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/grid_cell_border" />
+        </LinearLayout>
+
+        <!-- Row 3: Emergency Services -->
+        <LinearLayout
+            android:id="@+id/row_emergency"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.2"
+            android:orientation="horizontal"
+            android:weightSum="9">
+
+            <Button
+                android:id="@+id/btn_police_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:layout_margin="2dp"
+                android:elevation="4dp"
+                android:backgroundTint="@color/resq_police_navy"
+                android:text="POLICE"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/grid_cell_border" />
+
+            <Button
+                android:id="@+id/btn_medical_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:layout_margin="2dp"
+                android:elevation="6dp"
+                android:backgroundTint="@color/resq_medical_green"
+                android:text="MEDICAL"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@drawable/grid_cell_border" />
+
+            <Button
+                android:id="@+id/btn_fire_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:layout_margin="2dp"
+                android:elevation="4dp"
+                android:backgroundTint="@color/resq_fire_orange"
+                android:text="FIRE"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/grid_cell_border" />
+        </LinearLayout>
+
+        <!-- Rows 4-7: Map Space -->
+        <FrameLayout
+            android:id="@+id/container_map"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:layout_margin="2dp"
+            android:clipChildren="true"
+            android:clipToPadding="true"
+            android:elevation="1dp"
+            android:background="@drawable/grid_cell_border">
+
+            <org.osmdroid.views.MapView
+                android:id="@+id/in_app_map_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_map_status_badge_grid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="#80000000"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="2dp"
+                android:text="Map: Offline"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!-- Row 8: Status Bar -->
+        <LinearLayout
+            android:id="@+id/row_status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/tv_app_status_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:layout_margin="2dp"
+                android:elevation="2dp"
+                android:text="Mesh: OK | Peers: 0"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@drawable/grid_cell_border" />
+
+            <Button
+                android:id="@+id/btn_map_svc_grid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:layout_margin="2dp"
+                android:elevation="4dp"
+                android:backgroundTint="@color/resq_police_navy"
+                android:text="🗺️ MAP"
+                android:textSize="10sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/grid_cell_border" />
+        </LinearLayout>
+
+        <!-- Row 9: Under Construction -->
+        <LinearLayout
+            android:id="@+id/row_calls"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btn_under_construction"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:text="(under construction watch this for now)"
+                android:textSize="10sp"
+                android:textAllCaps="false"
+                android:elevation="4dp"
+                android:backgroundTint="#444444"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/grid_cell_border" />
+        </LinearLayout>
+
+        <!-- Row 10: Reserve Buttons -->
+        <LinearLayout
+            android:id="@+id/row_reserve"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <Button android:id="@+id/btn_b1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="SOS" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+            <Button android:id="@+id/btn_b2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="SAFE" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+            <Button android:id="@+id/btn_b3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="NOTE" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+            <Button android:id="@+id/btn_b4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="LITE" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+            <Button android:id="@+id/btn_b5" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="ALRM" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+            <Button android:id="@+id/btn_b6" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="DIAG" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+            <Button android:id="@+id/btn_b7" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="SCAN" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+            <Button android:id="@+id/btn_b8" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="SYNC" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+            <Button android:id="@+id/btn_b9" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="SIM" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+            <Button android:id="@+id/btn_b10" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:text="HELP" android:textColor="?android:attr/textColorPrimary" android:background="@drawable/grid_cell_dashed" style="?android:attr/borderlessButtonStyle" />
+        </LinearLayout>
+
+        <!-- Row 11: Extra Empty Boxes -->
+        <LinearLayout
+            android:id="@+id/row_extra_empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:layout_margin="1dp" android:background="@drawable/grid_cell_dashed" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bottom Sheet for Peer Discovery -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_sheet_peers"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:backgroundTint="?android:attr/colorBackground"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="40dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:background="#888888" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="LIVE PEER DISCOVERY"
+                android:textAlignment="center"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_peers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

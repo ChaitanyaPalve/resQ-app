@@ -1,0 +1,92 @@
+{
+  "zones": {
+    "A": {
+      "name": "Building A",
+      "occupancy_before": 42,
+      "confirmed_safe": 31,
+      "rescued": 4,
+      "damage": 0.78,
+      "devices_last_seen": 18,
+      "devices_alive": 12,
+      "sensor_score": 0.72,
+      "sos_count": 1,
+      "node_failures": 0.2
+    },
+    "B": {
+      "name": "Building B",
+      "occupancy_before": 38,
+      "confirmed_safe": 18,
+      "rescued": 2,
+      "damage": 0.92,
+      "devices_last_seen": 16,
+      "devices_alive": 5,
+      "sensor_score": 0.95,
+      "sos_count": 0,
+      "node_failures": 0.6
+    },
+    "C": {
+      "name": "Building C",
+      "occupancy_before": 20,
+      "confirmed_safe": 17,
+      "rescued": 2,
+      "damage": 0.22,
+      "devices_last_seen": 9,
+      "devices_alive": 8,
+      "sensor_score": 0.18,
+      "sos_count": 1,
+      "node_failures": 0.05
+    },
+    "HALL": {
+      "name": "Main Hall",
+      "occupancy_before": 25,
+      "confirmed_safe": 20,
+      "rescued": 3,
+      "damage": 0.55,
+      "devices_last_seen": 10,
+      "devices_alive": 7,
+      "sensor_score": 0.64,
+      "sos_count": 1,
+      "node_failures": 0.15
+    }
+  },
+  "exits": {
+    "EXIT_A": {
+      "name": "Exit A",
+      "blocked": false,
+      "capacity": 30,
+      "crowd": 12
+    },
+    "EXIT_B": {
+      "name": "Exit B",
+      "blocked": false,
+      "capacity": 40,
+      "crowd": 70
+    },
+    "EXIT_C": {
+      "name": "Exit C",
+      "blocked": false,
+      "capacity": 35,
+      "crowd": 8
+    }
+  },
+  "graph": {
+    "nodes": ["A", "B", "C", "HALL", "EXIT_A", "EXIT_B", "EXIT_C"],
+    "edges": [
+      {"from": "A", "to": "HALL", "distance": 40},
+      {"from": "B", "to": "HALL", "distance": 50},
+      {"from": "C", "to": "HALL", "distance": 35},
+      {"from": "A", "to": "EXIT_A", "distance": 80},
+      {"from": "B", "to": "EXIT_B", "distance": 30},
+      {"from": "C", "to": "EXIT_C", "distance": 40},
+      {"from": "HALL", "to": "EXIT_B", "distance": 45},
+      {"from": "HALL", "to": "EXIT_C", "distance": 55},
+      {"from": "A", "to": "B", "distance": 90},
+      {"from": "C", "to": "EXIT_B", "distance": 70}
+    ]
+  },
+  "sos": [
+    {"id": "SOS-1", "zone": "HALL", "type": "fire", "label": "Fire surrounding people in Hall"},
+    {"id": "SOS-2", "zone": "A", "type": "collapse", "label": "Building A partial collapse"},
+    {"id": "SOS-3", "zone": "C", "type": "minor", "label": "Minor injury in Building C"}
+  ]
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ResQMesh AI — Team B Command Center</title>
+  <style>
+    :root {
+      --bg: #070b12;
+      --panel: #101826;
+      --line: #243044;
+      --text: #e8eef8;
+      --muted: #93a4bb;
+      --red: #ff3b3b;
+      --orange: #ff9f1c;
+      --green: #22c55e;
+      --purple: #c084fc;
+      --cyan: #22d3ee;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: radial-gradient(1200px 500px at 10% -10%, #1a1020 0%, var(--bg) 45%);
+      color: var(--text);
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--line);
+      background: #0c121c;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0.04em;
+    }
+    header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .badge {
+      color: var(--purple);
+      border: 1px solid #6b3fa0;
+      background: #1b1028;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 16px;
+      padding: 16px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .campus {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      min-height: 280px;
+    }
+    .cell {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 110px;
+      background: #0d1522;
+    }
+    .cell b { display: block; font-size: 16px; margin-bottom: 6px; }
+    .cell span { color: var(--muted); font-size: 12px; display: block; }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      color: white;
+    }
+    .danger { background: #b91c1c; }
+    .ok { background: #0f766e; }
+    .ghost { background: #1e293b; color: #dbeafe; }
+    .route {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #0b1c22;
+      border: 1px solid #155e75;
+      font-size: 14px;
+    }
+    ol, ul { margin: 0; padding-left: 18px; }
+    li { margin: 8px 0; line-height: 1.4; }
+    .zs {
+      border-left: 4px solid var(--purple);
+      padding-left: 10px;
+      margin: 10px 0;
+    }
+    .muted { color: var(--muted); font-size: 12px; }
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>RESQMESH AI — TEAM B COMMAND CENTER</h1>
+      <p>Risk map · safest route · ZeroSignal missing-person zones</p>
+    </div>
+    <div class="badge" id="headline">No SOS received ≠ No victim</div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Live campus risk map</h2>
+      <div class="campus" id="campus"></div>
+      <div class="actions">
+        <button class="danger" onclick="blockExit('EXIT_B', true)">Block Exit B</button>
+        <button class="ok" onclick="blockExit('EXIT_B', false)">Open Exit B</button>
+        <button class="ghost" onclick="resetDemo()">Reset demo</button>
+      </div>
+      <div class="route" id="routeBox">Loading AI route...</div>
+    </section>
+
+    <section class="panel">
+      <h2>ZeroSignal AI</h2>
+      <p class="muted" id="missingLine"></p>
+      <div id="zerosignal"></div>
+      <h2 style="margin-top:18px">Rescue priority</h2>
+      <ol id="priority"></ol>
+    </section>
+  </main>
+
+  <script>
+    async function loadState() {
+      const res = await fetch("/api/state");
+      const data = await res.json();
+      render(data);
+    }
+
+    function render(data) {
+      document.getElementById("headline").textContent = data.headline;
+      const campus = document.getElementById("campus");
+      campus.innerHTML = "";
+
+      const order = ["A", "B", "HALL", "C"];
+      order.forEach((id) => {
+        const zone = data.zones[id];
+        const risk = data.risk_map[id];
+        const zs = data.zerosignal.zones.find((z) => z.id === id);
+        const div = document.createElement("div");
+        div.className = "cell";
+        div.style.borderColor = risk.color;
+        div.style.boxShadow = "inset 0 0 0 1px " + risk.color + "55";
+        div.innerHTML = `
+          <b>${zone.name}</b>
+          <span>Risk: <b style="color:${risk.color}">${risk.level} ${Math.round(risk.risk * 100)}%</b></span>
+          <span>People before: ${zone.occupancy_before} · safe ${zone.confirmed_safe} · rescued ${zone.rescued}</span>
+          <span style="color:#c084fc">ZeroSignal: ${zs ? zs.probability : 0}% · ${zs ? zs.missing : 0} unaccounted</span>
+        `;
+        campus.appendChild(div);
+      });
+
+      const exits = Object.entries(data.exits).map(([id, e]) => {
+        return `${e.name}: ${e.blocked ? "BLOCKED" : "OPEN"}`;
+      }).join(" · ");
+
+      const hallRoute = data.routes.HALL;
+      const bRoute = data.routes.B;
+      document.getElementById("routeBox").innerHTML = `
+        <b>AI safest routes</b><br/>
+        From Hall → ${(hallRoute && hallRoute.path.join(" → ")) || "no path"}<br/>
+        From Building B → ${(bRoute && bRoute.path.join(" → ")) || "no path"}<br/>
+        <span class="muted">${exits}</span>
+      `;
+
+      document.getElementById("missingLine").textContent =
+        data.zerosignal.total_unaccounted + " people are unaccounted after the disaster.";
+
+      document.getElementById("zerosignal").innerHTML = data.zerosignal.zones.map((z) => `
+        <div class="zs">
+          <b>${z.name} — ${z.probability}%</b>
+          <div class="muted">${z.reason}${z.had_sos ? "" : " · silent zone"}</div>
+        </div>
+      `).join("");
+
+      document.getElementById("priority").innerHTML = data.priority.map((p) => {
+        return `<li><b>${p.kind}</b> — ${p.title}</li>`;
+      }).join("");
+    }
+
+    async function blockExit(exit_id, blocked) {
+      const res = await fetch("/api/block-exit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ exit_id, blocked })
+      });
+      render(await res.json());
+    }
+
+    async function resetDemo() {
+      const res = await fetch("/api/reset", { method: "POST" });
+      render(await res.json());
+    }
+
+    loadState();
+  </script>
+</body>
+</html>
